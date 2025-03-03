@@ -30,7 +30,7 @@ Das gesamte System kann mit Docker Compose gestartet werden. (Docker Compose-Fil
 ### Repository klonen
 
 ```sh
-git clone 
+git clone git@github.com:AlexanderStucker/cattle-backend.git
 cd cattle-backend
 ```
 
