@@ -34,6 +34,15 @@ git clone
 cd cattle-backend
 ```
 
+### Docker Images von GHCR herunterladen
+
+Die Container-Images sind bereits in GHCR gepseicher. Ziehe die neusten Versionen herunter: 
+```sh
+docker pull ghcr.io/alexanderstucker/cattle-backend:latest
+docker pull ghcr.io/alexanderstucker/text-validation-service:latest
+```
+
+
 ### Dienste mit Docker Compose starten
 
 ```sh
