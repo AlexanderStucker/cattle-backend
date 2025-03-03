@@ -23,7 +23,7 @@ services:
       - "5432:5432"
 
   cattle-backend:
-    image: cattle-backend
+    image: ghcr.io/alexanderstucker/cattle-backend:latest
     container_name: cattle-backend
     networks:
       - cattle-net
@@ -39,7 +39,7 @@ services:
       - "8080:8080"
 
   text-validation:
-    image: text-validation-service
+    image: ghcr.io/alexanderstucker/text-validation-service:latest
     container_name: text-validation
     networks:
       - cattle-net
