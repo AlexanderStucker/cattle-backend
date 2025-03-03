@@ -1,0 +1,31 @@
+name: Build & Push Docker Images
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        run: echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      # Cattle-Backend MicroService
+      - name: Build Cattle-Backend Image
+        run: docker build -t ghcr.io/${{ github.actor }}/cattle-backend:latest ./cattle-backend
+
+      - name: Push Cattle-Backend Image
+        run: docker push ghcr.io/${{ github.actor }}/cattle-backend:latest
+
+      # Text-Validation-Service MicroService
+      - name: Build Text-Validation-Service Image
+        run: docker build -t ghcr.io/${{ github.actor }}/text-validation-service:latest ./text-validation-service
+
+      - name: Push Text-Validation-Service Image
+        run: docker push ghcr.io/${{ github.actor }}/text-validation-service:latest
