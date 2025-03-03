@@ -18,14 +18,18 @@ jobs:
 
       # Cattle-Backend MicroService
       - name: Build Cattle-Backend Image
-        run: docker build -t ghcr.io/alexanderstucker/cattle-backend:latest ./cattle-backend
+        run: |
+          cd cattle-backend
+          docker build -t ghcr.io/alexanderstucker/cattle-backend:latest ./cattle-backend
 
       - name: Push Cattle-Backend Image
         run: docker push ghcr.io/alexanderstucker/cattle-backend:latest
 
       # Text-Validation-Service MicroService
       - name: Build Text-Validation-Service Image
-        run: docker build -t ghcr.io/alexanderstucker/text-validation-service:latest ./text-validation-service
+        run: |
+         cd text-validation-service
+         docker build -t ghcr.io/alexanderstucker/text-validation-service:latest ./text-validation-service
 
       - name: Push Text-Validation-Service Image
         run: docker push ghcr.io/alexanderstucker/text-validation-service:latest
