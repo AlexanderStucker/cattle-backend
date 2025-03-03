@@ -1,0 +1,55 @@
+version: '3.8'
+services:
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v23.3.5
+    container_name: redpanda-1
+    networks:
+      - cattle-net
+    ports:
+      - "9092:9092"  # Kafka Port
+      - "8081:8081"  # Redpanda Console Port
+    command: redpanda start --advertise-kafka-addr redpanda-1:9092
+
+  database:
+    image: postgres:15
+    container_name: cattle-db
+    networks:
+      - cattle-net
+    environment:
+      POSTGRES_USER: cattle_user
+      POSTGRES_PASSWORD: cattle_pass
+      POSTGRES_DB: cattle_db
+    ports:
+      - "5432:5432"
+
+  cattle-backend:
+    image: cattle-backend
+    container_name: cattle-backend
+    networks:
+      - cattle-net
+    depends_on:
+      - database
+      - redpanda
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: redpanda-1:9092
+      QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://database:5432/cattle_db
+      QUARKUS_DATASOURCE_USERNAME: cattle_user
+      QUARKUS_DATASOURCE_PASSWORD: cattle_pass
+    ports:
+      - "8080:8080"
+
+  text-validation:
+    image: text-validation-service
+    container_name: text-validation
+    networks:
+      - cattle-net
+    depends_on:
+      - redpanda
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: redpanda-1:9092
+    ports:
+      - "8082:8080"
+
+networks:
+  cattle-net:
+    driver: bridge
