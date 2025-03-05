@@ -2,7 +2,7 @@
 
 ## Projektübersicht
 
-Dieses Projekt demonstriert die Verwendung von Quarkus in einem verteilten Messaging & Streaming-System mit Kafka. Es besteht aus zwei Microservices. Einer der Services ist mit einer Datenbank angebunden.
+Dieses Projekt demonstriert die Verwendung von Quarkus in einem verteilten Messaging & Streaming-System mit Kafka. Es besteht aus zwei Microservices. Der cattle-backend service ist an einer Datenbank angebunden.
 
 ###  Architektur
 
@@ -36,7 +36,7 @@ cd cattle-backend
 
 ### Docker Images von GHCR herunterladen
 
-Die Container-Images sind bereits in GHCR gepseicher. Ziehe die neusten Versionen herunter: 
+Die Container-Images sind in GHCR gespeichert. Die neusten Versionen können so bezogen werden (Docker-Compose file bezieht diese ebenfalls): 
 ```sh
 docker pull ghcr.io/alexanderstucker/cattle-backend:latest
 docker pull ghcr.io/alexanderstucker/text-validation-service:latest
@@ -61,6 +61,22 @@ docker-compose down
 ```
 
 ---
+
+## Validierungsregeln
+
+### Endpunkte
+
+1. ***GET /cattle*** 
+- Gibt eine Liste aller gespeicherten Rinder zurück.
+
+2. ***POST /cattle***
+- Speichert ein neues Rind in der Datenbank und sendet eine Validierungsanfrage an den text-validation-service
+- validated wird zu diesem Zeitpunkt immer "false" sein
+
+3. ***GET /cattle/validated***
+- Gibt eine Liste aller validierten Rinder zurück.
+
+Beispiele sind unter Anwendungsfälle ersichtlich
 
 ## Validierungsregeln
 
@@ -96,7 +112,7 @@ curl -X POST http://localhost:8080/cattle \
      -H "Content-Type: application/json" \
      -d '{
            "name": "Alex",
-           "description": "Ich bin eine korrekte Kuh"
+           "description": "Ich bin eine unvalidierte Kuh"
          }'
 ```
 
@@ -108,7 +124,7 @@ curl -X POST http://localhost:8080/cattle \
      -H "Content-Type: application/json" \
      -d '{
            "name": "Harald",
-           "description": "Ich bin 13 Meter gross"
+           "description": "Ich bin 13 Meter gross, daher validated = false"
          }'
 ```
 
