@@ -1,0 +1,29 @@
+name: Artillery Load Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  loadtest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Artillery
+        run: npm install -g artillery
+
+      - name: Run Load Test
+        run: |
+          artillery run src\test\java\com\example\artillery\cattle-loadtest.yml --output src\test\java\com\example\reports/artillery/cattle-loadtest-report.json
+
+      - name: Upload Artillery Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: artillery-report
+          path: reports/artillery/cattle-loadtest-report.html
