@@ -22,15 +22,16 @@ Das Test-Szenario besteht aus drei Schritten:
 
 - Einmaliger Testlauf:
 ```bash
-   artillery run tests/artillery/cattle-loadtest.yml --output reports/artillery/cattle-loadtest-report.json
+   cd cattle-backend
+   artillery run src\test\java\com\example\artillery\cattle-loadtest.yml --output src\test\java\com\example\reports/artillery/cattle-loadtest-report.json
  ```
 - HTML-Report erstellen:
  ```bash
-   artillery report --output reports/artillery/cattle-loadtest-report.html reports/artillery/cattle-loadtest-report.json
+   artillery report --output src\test\java\com\example\reports/artillery/cattle-loadtest-report.html src\test\java\com\example\reports/artillery/cattle-loadtest-report.json
  ```
 - Report anzeigen:
 ```bash
-   start reports/artillery/cattle-loadtest-report.html
+   start src\test\java\com\example\reports/artillery/cattle-loadtest-report.html
 ```
 
 
@@ -73,11 +74,12 @@ Das Test-Szenario besteht aus drei Schritten:
 
 - JMeter Non-GUI Command:
 ```bash
-jmeter -n -t tests/jmeter/cattle-loadtest.jmx -l reports/jmeter/results.jtl -e -o reports/jmeter/html-report
+cd cattle-backend
+jmeter -n -t src\test\java\com\example\jmeter\cattle-loadtest.jmx -l reports/jmeter/results.jtl -e -o src\test\java\com\example\reports\jmeter
 ```
 - HTML-Report über CLI öffnen:
  ```bash
-start reports/jmeter/html-report/index.html
+start src\test\java\com\example\reports/jmeter/index.html
 
 ```
 
