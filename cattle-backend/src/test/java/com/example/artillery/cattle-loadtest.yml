@@ -1,0 +1,24 @@
+config:
+  target: "http://localhost:8080"  # URL des Backends
+  phases:
+    - duration: 1   # Test Dauer
+      arrivalCount: 1 # Anahl der User
+  defaults:
+    headers:
+      Content-Type: "application/json"
+
+scenarios:
+  - name: Post, Get and Delete Cattle
+    flow:
+      - post:
+          url: "/cattle"
+          json:
+            name: "TestCow_{{ $randomInt(1, 10000) }}"
+            description: "This is a LoadTest Cattle with Artillery"
+          capture:
+            json: "$.id"
+            as: cattleId
+      - get:
+          url: "/cattle"
+      - delete:
+          url: "/cattle/{{ cattleId }}"

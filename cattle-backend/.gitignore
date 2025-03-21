@@ -42,8 +42,9 @@ nb-configuration.xml
 # Plugin directory
 /.quarkus/cli/plugins/
 
-# JMeter Test Results
-reports/jmeter/
 
-# Artillery Test Results
-reports/artillery/
+# Ignore entire reports folders and the jmeter log files
+src/test/java/com/example/reports/jmeter/
+src/test/java/com/example/reports/artillery/
+reports/jmeter/results.jtl
+jmeter.log

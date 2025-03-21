@@ -41,4 +41,12 @@ public class CattleResource {
     public List<Cattle> listValidated() {
         return Cattle.list("validated", true);
     }
+
+    @DELETE
+    @Path("/{id}")
+    @Operation(summary = "Rind löschen", description = "Löscht ein Rind anhand der ID aus der Datenbank")
+    public void delete(@PathParam("id") Long id) {
+        cattleService.deleteCattle(id);
+    }
+
 }

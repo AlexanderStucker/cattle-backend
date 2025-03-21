@@ -6,6 +6,8 @@ import com.example.model.Cattle;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
+
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
@@ -42,7 +44,7 @@ public class CattleService {
     }
     
 
-    @Incoming("validation-responses")
+    @Incoming("validation-responses-out")
     @Transactional
     public void processValidationResponse(ValidationResponse response) {
         LOG.infof("Received validation response: ID=%s, Valid=%s", response.id(), response.valid());
@@ -59,4 +61,16 @@ public class CattleService {
 
         LOG.infof("Updated cattle validation status: %s -> %s", cattle.id, response.valid());
     }
+
+    @Transactional
+        public void deleteCattle(Long id) {
+            Optional<Cattle> cattleOptional = Cattle.findByIdOptional(id);
+            if (cattleOptional.isEmpty()) {
+                LOG.warnf("Cattle with ID %s not found, cannot delete.", id);
+                throw new NotFoundException("Cattle not found");
+            }
+
+            cattleOptional.get().delete();
+            LOG.infof("Deleted cattle with ID: %s", id);
+        }
 }
