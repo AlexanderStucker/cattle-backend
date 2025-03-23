@@ -2,7 +2,7 @@ config:
   target: "http://localhost:8080"  # URL des Backends
   phases:
     - duration: 1   # Test Dauer
-      arrivalCount: 1 # Anahl der User
+      arrivalCount: 5 # Anahl der User
   defaults:
     headers:
       Content-Type: "application/json"
@@ -13,7 +13,7 @@ scenarios:
       - post:
           url: "/cattle"
           json:
-            name: "TestCow_{{ $randomInt(1, 10000) }}"
+            name: "TestCow"
             description: "This is a LoadTest Cattle with Artillery"
           capture:
             json: "$.id"

@@ -13,3 +13,5 @@ if (Test-Path $reportDir) {
 
 # Run JMeter Test Plan
 jmeter -n -t src/test/java/com/example/jmeter/cattle-loadtest.jmx -l $resultsFile -e -o $reportDir
+
+start src\test\java\com\example\reports/jmeter/index.html
